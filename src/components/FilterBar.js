@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
+import { NavLink } from "react-router-dom";
 
 class FilterBar extends Component {
   render() {
     return (
       <div className='filterbar'>
-        <span
-          className='btn active'
-          onClick={() => this.props.filterTask()}
+        <NavLink to="/"
+          exact
+          className={'btn'}
         >
-          All</span>
-        <span
-          className='btn'
-          onClick={() => this.props.filterTask('active')}
+          All</NavLink>
+        <NavLink to="/active"
+          className={'btn'}
         >
-          Active</span>
-        <span
-          className='btn'
-          onClick={() => this.props.filterTask('completed')}
+          Active</NavLink>
+        <NavLink to="/completed"
+          className={'btn'}
         >
-          Completed</span>
+          Completed</NavLink>
         <span
           className='clear-complete'
-          onClick={() => this.props.filterTask('clear')}
+          onClick={() => this.props.clearTask()}
         >
           Clear completed</span>
       </div>

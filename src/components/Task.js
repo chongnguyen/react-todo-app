@@ -3,9 +3,6 @@ import check from './img/check.png';
 import circle from './img/circle.png';
 
 class Task extends Component {
-  // constructor(props){
-  //   super(props);
-  // }
   render() {
     let status = this.props.content.isDone ?
       { src: check, active: ' active' } :

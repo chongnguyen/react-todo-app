@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import Task from './Task';
 
 class List extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   render() {
     return (

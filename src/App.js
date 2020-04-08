@@ -1,8 +1,15 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
 import './App.css';
 
 import List from './components/List';
 import Input from './components/Input';
+import FilterBar from './components/FilterBar';
 
 class App extends React.Component {
   constructor() {
@@ -29,8 +36,8 @@ class App extends React.Component {
   removeTask = (index) => {
     let todos = this.state.todoList;
 
-    for(let item in todos){
-      if(todos[item].id === index){
+    for (let item in todos) {
+      if (todos[item].id === index) {
         todos.splice(item, 1);
         break;
       }
@@ -58,18 +65,62 @@ class App extends React.Component {
     input.value = '';
   }
 
+  clearTask = () => {
+    let isRemove = window.confirm('Are you sure you want to delete all tasks ?');
+
+    if (isRemove) {
+      this.setState({ todoList: [] });
+      localStorage.setItem('todoList', []);
+    }
+
+  }
+
+  handlingKeyUp = () => {
+    this.addTask();
+  }
+
   render() {
     return (
-      <div className="App">
-        <h1 className='heading'>Todos</h1>
-        <Input addTask={this.addTask} />
-        <List
-          todos={this.state.todoList}
-          onDoneTask={this.onDoneTask}
-          removeTask={this.removeTask}
-        />
-      </div>
+      <Router>
+        <div className="App">
+          <h1 className='heading'>Todos</h1>
+          <Input
+            handlingKeyUp={this.handlingKeyUp}
+            addTask={this.addTask}
+          />
+          <Switch>
+            <Route exact path='/'>
+              <List
+                todos={this.state.todoList}
+                onDoneTask={this.onDoneTask}
+                removeTask={this.removeTask}
+              />
+            </Route>
+            <Route path='/active'>
+              <List
+                todos={
+                  this.state.todoList.filter(item => !item.isDone)
+                }
+                onDoneTask={this.onDoneTask}
+                removeTask={this.removeTask}
+              />
+            </Route>
+            <Route path='/completed'>
+              <List
+                todos={
+                  this.state.todoList.filter(item => item.isDone)
+                }
+                onDoneTask={this.onDoneTask}
+                removeTask={this.removeTask}
+              />
+            </Route>
+          </Switch>
+          <FilterBar clearTask={this.clearTask} />
+        </div>
+      </Router>
+
     );
+
   }
 }
 
